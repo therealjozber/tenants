@@ -3,7 +3,41 @@
 {% block content %} 
 
     <div class="max-w-4xl mx-auto px-8 py-24">
-        <h1>New Project</h1>
+        <h1>Most Popular</h1>
+        
     </div>
 
+    <div class="bg-white rounded-2xl shadow-lg p-8 mx-auto max-w-2xl">
+        <form method="POST" class="flex gap-2" id="itemForm">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="New item" class="flex-1 px-4 py-2 rounded-lg" id="itemName">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Add</button>
+        </form>
+    </div>
+
+    <div class="mt-8 gap-6">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <div id="itemList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for item in items %}
+                    <div class="bg-gray-100 rounded-lg p-4 shadow-sm">
+                        <p class="font-bold">{{ item.name }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('itemForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const itemName = document.getElementById('itemName').value;
+            if (itemName.trim() !== '') {
+                const itemList = document.getElementById('itemList');
+                const newItem = document.createElement('p');
+                newItem.textContent = itemName;
+                itemList.appendChild(newItem);
+                document.getElementById('itemName').value = '';
+            }
+        });
+    </script>
+    </div>
 {% endblock %}
